@@ -1,0 +1,3 @@
+# The contract headers are snapshots of the firmware's, kept in its spelling
+DisableFormat: true
+SortIncludes: Never
