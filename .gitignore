@@ -53,3 +53,9 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Editors and tooling
+*.swp
+tags
+compile_commands.json
+.cache/
