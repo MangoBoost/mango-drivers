@@ -290,9 +290,8 @@ struct smi_transport {
 	struct smi_log_view log_view;
 	struct mutex cmd_lock; /* [backend] guards @halted + build() */
 	bool halted; /* [backend] set under @cmd_lock, read lockless */
-	/* The two staging classes, carved from the data region the window
-	 * declared. Both media use them: an rpmsg lane used to hand out the
-	 * whole region with no exclusion at all. */
+	/* The staging slots, carved from the data region the window declared;
+	 * both media use them. */
 	struct smi_slot_class bulk;
 };
 

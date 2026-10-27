@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
- * legacy_ioctl.h - The legacy card node: UAPI v1's ioctls.
+ * legacy_ioctl.h - The legacy card node: the legacy UAPI's ioctls.
  *
  * Copyright (c) 2026, MangoBoost, Inc. All rights reserved.
  */
@@ -18,8 +18,9 @@ struct smi_fpt_copy;
 /* The card node's file operations. */
 extern const struct file_operations smi_legacy_fops;
 
-/* UAPI v1's check of a copy against its tables, before the card sees it: 0, or
- * -EINVAL for a partition they do not hold or a destination too small. */
+/* The legacy UAPI's check of a copy against its tables, before the card sees
+ * it: 0, or -EINVAL for a partition they do not hold or a destination too
+ * small. */
 int smi_legacy_copy_fits(struct device *dev, struct smi_fpt_copy *f,
 			 const struct smi_flash_op *op);
 

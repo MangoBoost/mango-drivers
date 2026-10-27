@@ -37,8 +37,8 @@ int smi_hwmon_v1_chan(struct pf_dev_struct *pf_dev,
 		      enum hwmon_sensor_types type, int channel, uint8_t *rid,
 		      uint8_t *id);
 
-/* The words UAPI v1 spells a record's status in; "" for a status it has none
- * for. */
+/* The words the legacy UAPI spells a record's status in; "" for a status it
+ * has none for. */
 const char *smi_legacy_status_name(int status);
 
 /**

@@ -178,9 +178,9 @@ static void legacy_leave(struct pf_dev_struct *pf_dev)
 	mutex_unlock(&card->app_lock);
 }
 
-/* UAPI v1 judges a card by its partition tables, so this face reads them
- * wherever a session runs. Only a card still in INIT is judged: one whose
- * tables did not read is INIT_ERROR, one with no record MISSING_INFO. */
+/* The legacy UAPI judges a card by its partition tables, so this face reads
+ * them wherever a session runs. Only a card still in INIT is judged: one
+ * whose tables did not read is INIT_ERROR, one with no record MISSING_INFO. */
 static int legacy_found(struct pf_dev_struct *pf_dev)
 {
 	int ret;

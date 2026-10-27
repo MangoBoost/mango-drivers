@@ -28,8 +28,8 @@ struct smi_qsfp_rw_arg {
 };
 
 /**
- * struct smi_legacy_prims - One card generation's answers to UAPI v1, the
- *			     flash verbs aside (the burn service's own).
+ * struct smi_legacy_prims - The card's answers to the legacy UAPI, the flash
+ *			     verbs aside (the burn service's own).
  * @qsfp_rw: one window of one cage at @buf; @val takes the answer's val, a
  *	     refusal's too, and @used the bytes written back, @arg->len or none.
  * @shell_exec: a line at @buf[0, @line_len), answered over it in at most @cap

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * legacy_v2.c - UAPI v1's requests, as a v2 card's own verbs.
+ * legacy_v2.c - The legacy UAPI's requests, as a v2 card's own verbs.
  *
  * Each fills the contract's payload, names its slice and reads the card's
  * answer, as a caller in user space would.

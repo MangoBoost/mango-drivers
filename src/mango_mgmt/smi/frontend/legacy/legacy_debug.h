@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
- * legacy_debug.h - The card's debug facilities UAPI v1 wraps.
+ * legacy_debug.h - The card's debug facilities the legacy UAPI wraps.
  *
  * A shell line, the firmware's log verbosity and the LEDs. Each is a verb the
  * card understands; naming one is this layer's business, not the ioctl's.

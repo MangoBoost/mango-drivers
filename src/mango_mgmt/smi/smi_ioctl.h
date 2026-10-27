@@ -301,7 +301,7 @@ enum smi_ioc_app_setup {
 #define SMI_IOC_MAGIC 'a'
 #define SMI_IOC_DOWNLOAD_PDI                                                   \
 	_IOW(SMI_IOC_MAGIC, 0, struct smi_ioc_data_payload *)
-/* 1 and 2 were the raw BAR read/write ioctls, retired; not to be reused. */
+/* Numbers 1 and 2 are reserved. */
 #define SMI_IOC_GET_SENSOR_VALUE                                               \
 	_IOWR(SMI_IOC_MAGIC, 3, struct smi_ioc_sensor_value *)
 #define SMI_IOC_DEVICE_BOOT                                                    \

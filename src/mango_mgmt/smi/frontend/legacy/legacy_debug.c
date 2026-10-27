@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * legacy_debug.c - The card's debug facilities UAPI v1 wraps.
+ * legacy_debug.c - The card's debug facilities the legacy UAPI wraps.
  *
  * Copyright (c) 2026, MangoBoost, Inc. All rights reserved.
  */
