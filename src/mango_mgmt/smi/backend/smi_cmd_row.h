@@ -114,9 +114,9 @@ struct smi_cmd_ctx {
  * @id:              the command id this row describes (table key).
  * @name:            human-readable name for logging.
  * @opcode:          the wire verb this command sends.
- * @deadline_ms:     how long the answer may take, for a generation whose card
- *                   states no Verb records: its frozen list's deadline column.
- * @win_max:         the largest slice, for such a generation: its frozen unit.
+ * @deadline_ms:     how long the answer may take when the card states no Verb
+ *                   record for the verb.
+ * @win_max:         the largest slice in that case.
  * @needs_data_buf:  reject a NULL data_buf (the CALLER's buffer: a row such as
  *                   heartbeat answers into it while claiming no window).
  * @needs_data_size: reject submission with zero data_size, same sense.

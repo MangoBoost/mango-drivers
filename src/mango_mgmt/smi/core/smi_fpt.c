@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * smi_fpt.c - The card's partition tables, as UAPI v1 keeps them.
+ * smi_fpt.c - The card's partition tables, as the legacy UAPI keeps them.
  *
  * Copyright (c) 2026, MangoBoost, Inc. All rights reserved.
  */

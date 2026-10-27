@@ -5,7 +5,7 @@ A point-to-point IP link (`ARPHRD_NONE`, no Ethernet header or ARP;
 MPIPE HW FIFO.  This is the transport TCP rides on; upper
 layers (term console, api RPC) speak kernel sockets over it.
 
-## Architecture (SPLIT_ARCH)
+## Architecture
 
 ```
 Host xmit                                             SoC xmit
@@ -89,7 +89,7 @@ See `nat.h` for the NAT struct and packer helpers.
 |---|---|
 | `hw.{c,h}` | MPIPE register bank selection (Host/SoC swapped), word send/recv, watermark-driven IRQ arming, polling-fallback kthread, wire-XOR fold. |
 | `netdev.{c,h}` | Virtual netdev: lifecycle (`mango_mgmt_mpipe_{init,exit}`), xmit / NAPI / TX+RX kthreads / frame-key selection / RX state machine / skb pool / carrier / inetaddr notifier (NAT auto-derive). |
-| `nat.h` | NAT struct + pack/unpack helpers, and `mango_mgmt_mpipe_get_nat` prototype.  Deliberately does **not** include `<linux/netdevice.h>` so aux modules that can't tolerate that header (libsmi conflict) can still read NAT state. |
+| `nat.h` | NAT struct + pack/unpack helpers, and `mango_mgmt_mpipe_get_nat` prototype.  Deliberately does **not** include `<linux/netdevice.h>`, so code that cannot include it can still read NAT state. |
 
 ## Key data structures
 

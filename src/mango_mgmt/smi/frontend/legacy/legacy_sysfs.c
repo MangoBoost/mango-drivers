@@ -186,10 +186,7 @@ static ssize_t smc_version_show(struct device *dev, struct device_attribute *da,
 }
 static DEVICE_ATTR_RO(smc_version);
 
-/* Which wire generation this card settled on, as the bit the registry names
- * it by. What the window's magic says is a different axis -- a card may
- * publish the first dialect's table and answer the second generation -- so a
- * reader that wants the generation asks for it rather than inferring it. */
+/* Which wire generation this card settled on, as its SMI_GEN_BIT_* bit. */
 static ssize_t wire_gen_show(struct device *dev, struct device_attribute *da,
 			     char *buf)
 {

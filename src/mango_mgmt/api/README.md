@@ -24,8 +24,8 @@ Host  mango_mgmt_rpc_call()
                                                                         │
                                               project op handler        │
                                               (any registered project — │
-                                              mgmt's own `meta` or an   │
-                                              client-module project)     ──┘
+                                              mgmt's own `meta` or a    │
+                                              client-module project)   ──┘
 ```
 
 TCP rides on the `mango_mgmt%d` netdev (see `../mpipe/`).  The client

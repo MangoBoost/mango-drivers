@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * legacy_pub.c - The published facts UAPI v1 reads: Status's tail and the
- * counters.
+ * legacy_pub.c - The published facts the legacy UAPI reads: Status's tail
+ * and the counters.
  *
  * Copyright (c) 2026, MangoBoost, Inc. All rights reserved.
  */

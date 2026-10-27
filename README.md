@@ -65,9 +65,5 @@ $ ./script/apply_clang_format.sh
 
 ## License
 
-The drivers are licensed under GPL-2.0 ([LICENSE](LICENSE)). Some files
-carry a different or additional license, such as the MIT-licensed GCQ and
-firmware-interface code from AMD AVED; each file's SPDX identifier governs
-it. [NOTICE](NOTICE) lists those files and the code taken from other
-projects, and [LICENSES](LICENSES) holds the license texts other than
-GPL-2.0.
+GPL-2.0 ([LICENSE](LICENSE)). Some files carry a different license; see
+[NOTICE](NOTICE).

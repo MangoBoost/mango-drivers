@@ -130,7 +130,7 @@ bool smi_cmd_verb(struct smi_cmd *m, uint16_t opcode,
  * @id: the command.
  *
  * Both halves: the settled generation has a row for it, and the card states
- * the verb -- which a frozen generation always does.
+ * the verb.
  */
 bool smi_cmd_serves(struct smi_cmd *m, int id);
 

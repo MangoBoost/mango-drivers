@@ -3,11 +3,12 @@
  * MangoBoost VirtIO Custom Transport - virtio-console (SoC only)
  *
  * Registers a virtio-console device with the kernel, bridging the SoC's
- * hvc0 to a TCP listener on port 1022.  The Host connects via term.c.
+ * hvc0 to a TCP listener on the term_port module parameter.  The Host
+ * connects through socket_tty.c.
  *
  * Also contains the virtio transport plumbing (config ops, virtqueue
- * creation, taking over the device side of each ring) — previously split
- * across common.c. The ring code itself is vring_host.c.
+ * creation, taking over the device side of each ring). The ring code itself
+ * is vring_host.c.
  *
  * Copyright (c) 2025, MangoBoost, Inc. All rights reserved.
  */

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * legacy_ioctl.c - The legacy card node: UAPI v1's ioctls.
+ * legacy_ioctl.c - The legacy card node: the legacy UAPI's ioctls.
  *
  * Copyright (c) 2023 - 2025 Advanced Micro Devices, Inc. All rights reserved.
  * Copyright (c) 2026, MangoBoost, Inc. All rights reserved.
@@ -80,7 +80,8 @@ static int ioctl_set_sensor_refresh(struct pf_dev_struct *pf_dev,
 	return smi_hwmon_set_interval(pf_dev, (long)arg);
 }
 
-/* UAPI v1 names the partition tables by a partition number of its own. */
+/* The legacy UAPI names the partition tables by a partition number of its
+ * own. */
 static int ioctl_download_pdi(struct pf_dev_struct *pf_dev, unsigned long arg)
 {
 	struct smi_legacy_card *card = smi_legacy_card(pf_dev);
