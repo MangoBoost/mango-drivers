@@ -1,0 +1,65 @@
+mango-drivers
+Copyright (c) 2025-2026 MangoBoost, Inc.
+
+This repository is distributed under the GNU General Public License,
+version 2 (see LICENSE). Some files carry a different or additional license
+and include code from other projects, as recorded below. Every source file
+names its license in an SPDX-License-Identifier line; that line governs the
+file. License texts other than GPL-2.0 are in the LICENSES directory.
+
+
+1. Code from other projects
+===============================================================================
+
+  AMD AVED GCQ driver and firmware interface layer (modified)
+      MIT | https://github.com/Xilinx/AVED
+      Copyright (c) 2023-2026 Advanced Micro Devices, Inc.
+      Modifications Copyright (c) 2026 MangoBoost, Inc.
+      Files:
+          src/mango_mgmt/smi/backend/transport/gcq-driver/*
+          src/mango_mgmt/smi/backend/transport/fal/fw_if.h
+          src/mango_mgmt/smi/backend/transport/fal/gcq/*
+          src/mango_mgmt/smi/backend/transport/fal/rpmsg/*
+      License text: LICENSES/MIT
+
+  AMD AVED Management Interface (AMI) driver (modified)
+      GPL-2.0-only | https://github.com/Xilinx/AVED
+      Copyright (c) 2023-2026 Advanced Micro Devices, Inc. All rights reserved.
+      Modifications Copyright (c) 2025-2026 MangoBoost, Inc.
+      Files:
+          src/mango_mgmt/smi/smi_mod.c, smi_top.{c,h}, smi_ioctl.h,
+              profile_fal.h
+          src/mango_mgmt/smi/backend/smc_proxy.{c,h},
+              smi_smc_control.{c,h}
+          src/mango_mgmt/smi/core/smi_eeprom.{c,h}, smi_flash.{c,h},
+              smi_sensor.{c,h}
+          src/mango_mgmt/smi/frontend/smi_hwmon.{c,h}, smi_node.{c,h}
+          src/mango_mgmt/smi/frontend/legacy/legacy.c, legacy_hwmon.c,
+              legacy_ioctl.c, legacy_sysfs.{c,h}, legacy_utils.{c,h},
+              smi_driver_version.h
+      License text: LICENSE
+      smi_ioctl.h is GPL-2.0 WITH Linux-syscall-note instead (see section 2).
+
+  Linux kernel vringh (adapted)
+      GPL-2.0 | https://git.kernel.org/ drivers/vhost/vringh.c
+      Files:
+          src/mango_mgmt/term/vring_host.{c,h}
+      License text: LICENSE
+
+
+2. MangoBoost files under other licenses
+===============================================================================
+
+  SMI wire contract, shared with the card firmware
+      GPL-2.0 OR BSD-2-Clause
+      Files:
+          src/mango_mgmt/smi/contract/smi/*
+      License text: LICENSE, LICENSES/BSD-2-Clause
+
+  SMI ioctl interface used by userspace (derived from AMD AMI, see section 1)
+      GPL-2.0 WITH Linux-syscall-note
+      Files:
+          src/mango_mgmt/smi/smi_ioctl.h
+      License text: LICENSE, LICENSES/Linux-syscall-note
+      Userspace programs that use this interface through system calls are
+      not derived works of the driver.
