@@ -247,7 +247,11 @@ static int mango_mgmt_pcie_probe(struct pci_dev *pdev,
 
 	err = mango_mgmt_frontend_init_device(mgmt);
 	if (err) {
-		dev_err(&pdev->dev, "Failed to initialize frontend: %d", err);
+		/* -ENODEV the frontend has explained: nothing to bind, or a
+		 * component that said so itself. */
+		if (err != -ENODEV)
+			dev_err(&pdev->dev, "Failed to initialize frontend: %d",
+				err);
 		goto free_mgmt;
 	}
 

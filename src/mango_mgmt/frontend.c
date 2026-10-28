@@ -73,14 +73,19 @@ static void mango_mgmt_frontend_mpipe_exit(struct mango_mgmt_dev *mgmt)
  * service registered. */
 static int mango_mgmt_frontend_mgmt_init(struct mango_mgmt_dev *mgmt)
 {
+	bool is_soc = mango_mgmt_transport_is_soc_device(mgmt);
 	int ret;
 
 	ret = mango_mgmt_sysfs_setup(mgmt);
 	if (ret)
 		return ret;
 
-	if (!mango_mgmt_regmap_has(mgmt, MGMT_BLK_MPIPE))
+	if (!mango_mgmt_dev_has_mpipe(mgmt))
 		return 0;
+
+	dev_info(mgmt->dev,
+		 "MPIPE detected: bringing up netdev, RPC API and console %s",
+		 is_soc ? "server" : "client");
 
 	ret = mango_mgmt_frontend_mpipe_init(mgmt);
 	if (ret) {
@@ -107,10 +112,26 @@ static void mango_mgmt_frontend_mgmt_exit(struct mango_mgmt_dev *mgmt)
 
 int mango_mgmt_frontend_init_device(struct mango_mgmt_dev *mgmt)
 {
-	/* The MPIPE block is the MGMT component's: no block, no surface. */
-	bool want_mgmt = mango_mgmt_regmap_has(mgmt, MGMT_BLK_MPIPE);
+	/* MPIPE is the MGMT component's: no FIFO, no surface. A card built
+	 * without one says so in CONFIGURATION and binds with SMI alone. */
+	bool want_mgmt = mango_mgmt_dev_has_mpipe(mgmt);
 	bool want_smi = mgmt->desc->smi != MGMT_SMI_NONE;
 	int mgmt_ret = -ENODEV, smi_ret = -ENODEV;
+
+	/* A card built without MPIPE is the normal case for its owner, so
+	 * only the debug log says why there is no MGMT surface. */
+	if (!want_mgmt && mango_mgmt_regmap_has(mgmt, MGMT_BLK_MPIPE))
+		dev_dbg(mgmt->dev, "No MPIPE on this card; MGMT skipped");
+
+	/* Neither component: the SoC's management node of such a card, since
+	 * its SMI rides a device of its own. -ENODEV is the bus's quiet "not
+	 * for this driver", and the transports let it pass without an error. */
+	if (!want_mgmt && !want_smi) {
+		dev_info(
+			mgmt->dev,
+			"no MPIPE and no SMI on this function: nothing to bind");
+		return -ENODEV;
+	}
 
 	if (want_mgmt) {
 		mgmt_ret = mango_mgmt_frontend_mgmt_init(mgmt);
@@ -131,7 +152,8 @@ int mango_mgmt_frontend_init_device(struct mango_mgmt_dev *mgmt)
 			dev_err(mgmt->dev, "SMI unavailable (%d)", smi_ret);
 	}
 
-	/* One component up is a bound function; none is a failed probe. */
+	/* One component up is a bound function; none is a failed probe,
+	 * already explained above by the component that did not come up. */
 	if (mgmt_ret && smi_ret)
 		return want_mgmt ? mgmt_ret : smi_ret;
 

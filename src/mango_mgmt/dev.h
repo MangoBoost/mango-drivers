@@ -55,6 +55,12 @@ extern int mango_mgmt_irq_mode;
 extern unsigned short mango_mgmt_rpc_port;
 extern unsigned short mango_mgmt_term_port;
 
+/* What the identification block said at probe; read once, immutable after. */
+struct mango_mgmt_ident {
+	u32 version;
+	u32 configuration; /* MGMT_V2_CFG_* bits */
+};
+
 /* The MGMT component: the surface and what rides on it, brought up and torn
  * down as one by frontend.c. devid, ready and netdev are three different
  * facts and stay separate; each field is the allocating subsystem's. */
@@ -77,6 +83,8 @@ struct mango_mgmt_dev {
 	struct device *dev; /* parent device (PCI or platform) */
 	const struct mango_mgmt_desc *desc;
 
+	struct mango_mgmt_ident ident;
+
 	struct mango_mgmt_transport *transport; /* PCIe or MMIO backend */
 	struct mango_mgmt_monitor *monitor; /* hardware monitoring context */
 
@@ -88,6 +96,10 @@ struct mango_mgmt_dev *mango_mgmt_dev_alloc(struct device *,
 					    struct mango_mgmt_transport *,
 					    const struct mango_mgmt_desc *);
 void mango_mgmt_dev_free(struct mango_mgmt_dev *);
+
+/* Whether the card wires an MPIPE FIFO: the block is mapped and
+ * CONFIGURATION.HAS_MPIPE says it was built in. */
+bool mango_mgmt_dev_has_mpipe(struct mango_mgmt_dev *);
 
 /* Resolve a management HW address to its device (intra-module helper,
  * defined in api/api.c). Returns NULL if no device matches. */
