@@ -20,10 +20,16 @@
 #define MPIPE_CTRL_HIGH_WM_SHIFT (9)
 #define MPIPE_CTRL_HIGH_WM_MASK GENMASK(17, 9)
 
+/* CONFIGURATION (V2_CONFIGURATION): how the card was built. Only the bit
+ * the driver decides on is named; the rest is reported as read. */
+#define MGMT_V2_CFG_HAS_MPIPE BIT(16)
+
 /* Every register the driver touches: name, block, offset inside the block,
  * and the side that drives it. One list feeds both the enum and the layout
  * table, so a register added in the middle cannot land in the wrong side. */
 #define MANGO_MGMT_REG_LIST(X)                                                 \
+	X(V2_VERSION, V2_SYSMAN, 0x0000, ANY)                                  \
+	X(V2_CONFIGURATION, V2_SYSMAN, 0x0008, ANY)                            \
 	X(HOST_H2C_TX_DATA, MPIPE, 0x0000, HOST)                               \
 	X(HOST_C2H_RX_DATA, MPIPE, 0x0004, HOST)                               \
 	X(HOST_H2C_STS, MPIPE, 0x0008, HOST)                                   \
@@ -42,8 +48,10 @@ enum mango_mgmt_reg { MANGO_MGMT_REG_LIST(MGMT_X_REG_ENUM) MGMT_REG_NUM };
 #undef MGMT_X_REG_ENUM
 
 /* IP blocks. A card's regmap places each block; the register offsets inside a
- * block are the same on every card (regmap.c). */
+ * block are the same on every card (regmap.c). V2_SYSMAN is the
+ * identification block: VERSION and CONFIGURATION, read once at probe. */
 enum mango_mgmt_block {
+	MGMT_BLK_V2_SYSMAN,
 	MGMT_BLK_MPIPE,
 	MGMT_BLK_GCQ,
 	MGMT_BLK_GCQ_PAYLOAD,

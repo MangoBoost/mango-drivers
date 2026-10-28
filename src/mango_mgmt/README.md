@@ -8,8 +8,10 @@ talk to each other through the card's hardware FIFO.
 
 On probe the module:
 
-- brings up the MPIPE FIFO and registers a point-to-point IP netdev
-  (`mango_mgmt%d` on the Host, `mango_mgmt` on the SoC),
+- reads the card's identification block, whose configuration says
+  whether the card was built with an MPIPE FIFO,
+- when it was, brings the FIFO up and registers a point-to-point IP
+  netdev (`mango_mgmt%d` on the Host, `mango_mgmt` on the SoC),
 - starts an RPC client (Host) or service (SoC) on top of that netdev,
 - wires `/dev/mango-mgmt%d` to a terminal session into the SoC's
   console,
@@ -19,8 +21,9 @@ On probe the module:
 
 Which functions it binds, and what each carries, is one table:
 `struct mango_mgmt_desc` rows in `transport/pcie.c` (PCI ID `1f52:2100`,
-which carries MPIPE and SMI together) and `transport/mmio.c` (DT
-compatible `mangoboost,mgmt-v2`).  An empty `mango_smi` PCI driver is
+which carries SMI, and MPIPE when the card was built with one) and
+`transport/mmio.c` (DT compatible `mangoboost,mgmt-v2`).  A function
+with neither component is left unbound.  An empty `mango_smi` PCI driver is
 also registered so `/sys/bus/pci/drivers/mango_smi/` lists the SMI
 devices where userspace looks for them.
 
@@ -80,7 +83,7 @@ RPC.
 | `smi_glue.c` / `smi_glue.h` | The SMI component of a management device: attach/detach/quiesce on the function's GCQ blocks and the reads answered by the SMI serving the device, own or sibling.  The attach's devres is libsmi's own, so this file holds no token for it.  The one file that knows both mgmt and libsmi. |
 | `cdev.c` / `cdev.h` | Default `file_operations` for `/dev/mango-mgmt%d`.  Just `open` + `mmap` of the MPIPE register window.  `term/client.c` overlays its own fops on Host; SoC keeps these defaults. |
 | `sysfs.c` / `sysfs.h` | sysfs class setup, attribute groups: `info/` (power/temp/serial/macaddr), `mpipe/` (NAT IPs, counters), `mpipe_debug/` (HW fill level, IRQ counts). |
-| `regmap.c` / `regmap.h` | Per-card table of IP block bases (MPIPE, GCQ, GCQ payload) plus one intra-block register layout.  The source of truth for every offset `mpipe/hw.c` and the SMI attach use. |
+| `regmap.c` / `regmap.h` | Per-card table of IP block bases (identification block, MPIPE, GCQ, GCQ payload) plus one intra-block register layout.  The source of truth for every offset `mpipe/hw.c` and the SMI attach use. |
 | `hw_contract.h` | PCI IDs and block offsets/lengths the regmap is built from. |
 | `mango_dev.c` / `mango_dev_health.c` | `/sys/class/mango_dev/` hardware-presence inventory and devlink health reporting, used by the data-path drivers. |
 

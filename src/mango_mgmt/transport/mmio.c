@@ -282,9 +282,12 @@ static int mango_mgmt_mmio_probe(struct platform_device *pdev)
 
 	err = mango_mgmt_frontend_init_device(mgmt);
 	if (err) {
-		dev_err(&pdev->dev,
-			"Failed to initialize frontend for MMIO device: %d",
-			err);
+		/* -ENODEV the frontend has explained: nothing to bind, or a
+		 * component that said so itself. */
+		if (err != -ENODEV)
+			dev_err(&pdev->dev,
+				"Failed to initialize frontend for MMIO device: %d",
+				err);
 		goto free_mgmt;
 	}
 	dev_info(&pdev->dev, "MMIO device frontend initialized");

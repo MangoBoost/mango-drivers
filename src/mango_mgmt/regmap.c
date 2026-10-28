@@ -39,18 +39,24 @@ static const struct {
 		.len = MANGO_HW_##card##_##block##_LEN                         \
 	}
 
-/* MPIPE and the SMI command plane share one function. */
+/* MPIPE and the SMI command plane share one function; the identification
+ * block says whether the card wires MPIPE at all. */
 const struct mango_mgmt_regmap mango_mgmt_regmap_pcie_v2 = {
 	.blk = {
+		[MGMT_BLK_V2_SYSMAN] = BLK(MGMT_V2, SYSMAN),
 		[MGMT_BLK_MPIPE] = BLK(MGMT_V2, MPIPE),
 		[MGMT_BLK_GCQ] = BLK(MGMT_V2, GCQ),
 		[MGMT_BLK_GCQ_PAYLOAD] = BLK(MGMT_V2, GCQ_PAYLOAD),
 	},
 };
 
-/* The SoC side carries MPIPE alone, at the host offset. */
+/* The SoC side carries the identification block and MPIPE, at the host
+ * offsets; its SMI rides a device of its own. */
 const struct mango_mgmt_regmap mango_mgmt_regmap_mmio_v2 = {
 	.blk = {
+		[MGMT_BLK_V2_SYSMAN] = { .idx = MANGO_HW_MMIO_IDX,
+					 .off = MANGO_HW_MGMT_V2_SYSMAN_OFF,
+					 .len = MANGO_HW_MGMT_V2_SYSMAN_LEN },
 		[MGMT_BLK_MPIPE] = { .idx = MANGO_HW_MMIO_IDX,
 				     .off = MANGO_HW_MGMT_V2_MPIPE_OFF,
 				     .len = MANGO_HW_MMIO_V2_MPIPE_LEN },
